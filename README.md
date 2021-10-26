@@ -7,7 +7,7 @@
 4. Code away
 
 
-Don't forget to remove the "home" function in config/urls.py and use your ow. Now, to start a new project - a personal blog for example, run 
+To add a new app - a personal blog for example, run 
 
 `docker compose exec web python manage.py startapp blog`
 
