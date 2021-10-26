@@ -1,4 +1,4 @@
-#How to use this boilerplate
+# How to use this boilerplate
 
 
 1. Git clone https://github.com/vacchiano/django-launch.git
