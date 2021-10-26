@@ -37,15 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites", #all-auth
 
     #3rd party
-    "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "crispy_forms",
 
     #local apps
     "accounts",
+    "pages",
 ]
 
 MIDDLEWARE = [
@@ -131,6 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) #for production
+STATICFILES_FINDERS = [ "django.contrib.staticfiles.finders.FileSystemFinder", "django.contrib.staticfiles.finders.AppDirectoriesFinder", ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -163,3 +168,6 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 
 # email
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
+
+#django crispy forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
