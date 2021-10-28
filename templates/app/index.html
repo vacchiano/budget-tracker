@@ -36,50 +36,35 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Type</th>
                                 <th>Amount</th>
                                 <th>Description</th>
+                                <th>Type</th>
                                 <th>Category</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Date</th>
-                                <th>Type</th>
                                 <th>Amount</th>
                                 <th>Description</th>
+                                <th>Type</th>
                                 <th>Category</th>
                             </tr>
                         </tfoot>
                         <tbody>
+                            {% for transaction in transactions %}
                             <tr>
-                                <td>10/02/2021</td>
-                                <td>Income</td>
-                                <td>$2,000.00</td>
-                                <td>Paycheck</td>
-                                <td>Paycheck</td>
+                                <td>{{ transaction.date|date:"m/d/y" }}</td>
+                                {% if transaction.type == "Expense" %}
+                                <td class="table-danger">-${{ transaction.amount }}</td>
+                                {% else %}
+                                <td class="table-success">${{ transaction.amount }}</td>
+                                {% endif %}
+                                <td>{{ transaction.description }}</td>
+                                <td>{{ transaction.type }}</td>
+                                <td>{{ transaction.category }}</td>
                             </tr>
-                            <tr>
-                                <td>10/04/2021</td>
-                                <td>Expense</td>
-                                <td>($1,000.00)</td>
-                                <td>Rent</td>
-                                <td>Home</td>
-                            </tr>
-                            <tr>
-                                <td>10/09/2021</td>
-                                <td>Expense</td>
-                                <td>($200.00)</td>
-                                <td>Utilities</td>
-                                <td>Home</td>
-                            </tr>
-                            <tr>
-                                <td>10/12/2021</td>
-                                <td>Expense</td>
-                                <td>($110.94)</td>
-                                <td>Movie</td>
-                                <td>Entertainment</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
