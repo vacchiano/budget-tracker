@@ -4,7 +4,7 @@ from .models import Transaction
 from datetime import datetime
 
 
-User = get_user_model()
+User = get_user_model() #gets user model imported
 
 def dashboard(request):
     current_month = datetime.now().month

@@ -56,12 +56,16 @@
                             <tr>
                                 <td>{{ transaction.date|date:"m/d/y" }}</td>
                                 {% if transaction.type == "Expense" %}
-                                <td class="table-danger">-${{ transaction.amount }}</td>
+                                    <td class="table-danger">-${{ transaction.amount }}</td>
                                 {% else %}
-                                <td class="table-success">${{ transaction.amount }}</td>
+                                    <td class="table-success">${{ transaction.amount }}</td>
                                 {% endif %}
                                 <td>{{ transaction.description }}</td>
-                                <td>{{ transaction.type }}</td>
+                                {% if transaction.type == "Expense" %}
+                                    <td class="text-white bg-danger">{{ transaction.type }}</td>
+                                {% else %}
+                                    <td class="text-white bg-success">{{ transaction.type }}</td>
+                                {% endif %}
                                 <td>{{ transaction.category }}</td>
                             </tr>
                             {% endfor %}
