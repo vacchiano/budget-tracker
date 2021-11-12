@@ -9,4 +9,13 @@ window.addEventListener('DOMContentLoaded', event => {
             searchable: false
         });
     }
+
+    const datatablesSimple2 = document.getElementById('datatablesSimple2');
+    if (datatablesSimple2) {
+        new simpleDatatables.DataTable(datatablesSimple2, {
+            paging: true,
+            searchable: true
+        });
+    }
+
 });

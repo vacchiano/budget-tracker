@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 class Transaction(models.Model):
     TYPE_CHOICES = [
@@ -34,3 +35,6 @@ class Transaction(models.Model):
             return f'{self.description} | -${self.amount}'
         else:
             return f'{self.description} | ${self.amount}'
+
+    # def get_absolute_url(self):
+    #     return reverse()

@@ -27,7 +27,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#!">Settings</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -44,9 +44,13 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Transactions</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="{% url 'transactions' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Transactions
+                            </a>
+                            <a class="nav-link" href="{% url 'transaction-create' %}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
+                                New Transaction
                             </a>
                         </div>
                     </div>

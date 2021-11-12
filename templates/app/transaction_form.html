@@ -1,0 +1,30 @@
+{% extends 'app/_base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">New Transaction</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Transaction</li>
+            </ol>
+            <div class="col-12">
+
+                <div class="card mb-4 col-lg-12 col-xl-6">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Create Transaction
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="mt-2">
+                                <button class="btn btn-lg btn-success" type="submit">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'app/_base.html' %}
+{% block content %}
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">All Transactions</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Transactions</li>
+            </ol>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Transactions
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple2">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Edit</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td>{{ transaction.date|date:"m/d/y" }}</td>
+                                {% if transaction.type == "Expense" %}
+                                    <td class="table-danger">-${{ transaction.amount }}</td>
+                                {% else %}
+                                    <td class="table-success">${{ transaction.amount }}</td>
+                                {% endif %}
+                                <td>{{ transaction.description }}</td>
+                                {% if transaction.type == "Expense" %}
+                                    <td class="text-white bg-danger">{{ transaction.type }}</td>
+                                {% else %}
+                                    <td class="text-white bg-success">{{ transaction.type }}</td>
+                                {% endif %}
+                                <td>{{ transaction.category }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-info" href="#">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger" href="#">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+                
