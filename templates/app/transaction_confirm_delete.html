@@ -3,24 +3,24 @@
 {% block content %}
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">New Transaction</h1>
+            <h1 class="mt-4">Delete Transaction</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Transaction</li>
+                <li class="breadcrumb-item active">Delete Transaction</li>
             </ol>
             <div class="col-12">
 
                 <div class="card mb-4 col-lg-12 col-xl-6">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Create Transaction
+                        Delete Transaction
                     </div>
                     <div class="card-body">
+                        <p>Are you sure you want to delete transaction {{ transaction.description }} from {{ transaction.date }}</p>
                         <form method="post">
                             {% csrf_token %}
-                            {{ form|crispy }}
-                            <div class="mt-3">
+                            <div class="mt-2">
                                 <a href="{% url 'transactions' %}" class="btn btn-info">Cancel</a>
-                                <button class="btn btn btn-success" type="submit">Create</button>
+                                <button class="btn btn btn-danger" type="submit">Delete</button>
                             </div>
                         </form>
                     </div>

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView
 from .models import Transaction
 from datetime import datetime
 from .forms import TransactionForm
@@ -36,3 +36,8 @@ class TransactionCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('transactions')
+
+class TransactionDeleteView(DeleteView):
+    model = Transaction
+    context_object_name = 'transaction'
+    success_url = reverse_lazy('transactions')
