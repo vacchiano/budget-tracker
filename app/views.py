@@ -2,8 +2,9 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, DetailView
-from django.db.models import Sum, Value
-from django.db.models.functions import Coalesce
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.utils import timezone
 
 from .models import Transaction
@@ -12,6 +13,7 @@ from config.settings import MONTHS
 
 User = get_user_model() #gets user model imported
 
+@login_required
 def dashboard(request):
     current_month = timezone.now().month
     current_year = timezone.now().year
@@ -45,6 +47,7 @@ def dashboard(request):
     }
     return render(request, 'app/index.html', context)
 
+@login_required
 def transactions(request):
     transactions = Transaction.objects.filter(owner=request.user).order_by('-date')
     context = {
@@ -52,27 +55,48 @@ def transactions(request):
     }
     return render(request, 'app/transactions.html', context)
 
-class TransactionDetailView(DetailView):
+class TransactionDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Transaction
 
-class TransactionCreateView(CreateView):
+    # checks whether the logged in user is the owner of the transaction
+    def test_func(self):
+        transaction = self.get_object()
+        if self.request.user == transaction.owner:
+            return True
+        return False
+
+class TransactionCreateView(LoginRequiredMixin, CreateView):
     model = Transaction
     #fields = ['date', 'type', 'amount', 'description', 'category']
     form_class = TransactionForm
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super().form_valid(form) #running form valid method on parent class
+        return super().form_valid(form) #running form valid method from parent class
 
     def get_success_url(self):
         return reverse('transactions')
 
-class TransactionUpdateView(UpdateView):
+class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transaction
     form_class = TransactionForm
     template_name_suffix = '_update'
 
-class TransactionDeleteView(DeleteView):
+    # checks whether the logged in user is the owner of the transaction
+    def test_func(self):
+        transaction = self.get_object()
+        if self.request.user == transaction.owner:
+            return True
+        return False
+
+class TransactionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Transaction
     context_object_name = 'transaction'
     success_url = reverse_lazy('transactions')
+
+    # checks whether the logged in user is the owner of the transaction
+    def test_func(self):
+        transaction = self.get_object()
+        if self.request.user == transaction.owner:
+            return True
+        return False
