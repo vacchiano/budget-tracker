@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView, DetailView
 from django.db.models import Sum, Value
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -18,7 +18,12 @@ def dashboard(request):
     # transactions = Transaction.objects.filter(owner=request.user, date__month=current_month).order_by('-date')
     transactions = Transaction.objects.filter(owner=request.user).order_by('-date')
 
-    
+    monthly_income = Transaction.objects.filter(owner=request.user, type="Income", date__month=current_month, date__year=current_year)
+    monthly_income = monthly_income.aggregate(Sum('amount'))['amount__sum']
+
+    monthly_expenses = Transaction.objects.filter(owner=request.user, type="Expense", date__month=current_month, date__year=current_year)
+    monthly_expenses = monthly_expenses.aggregate(Sum('amount'))['amount__sum']
+
 
     categories = []
     for category in Transaction.CATEGORY_CHOICES:
@@ -32,7 +37,11 @@ def dashboard(request):
     context = {
         'transactions': transactions[:10],
         'current_month': timezone.now(),
-        'categories_data': categories
+        'categories_data': categories,
+        'monthly_data': [{
+            "monthly_income": monthly_income,
+            "monthly_expenses": monthly_expenses
+            }]
     }
     return render(request, 'app/index.html', context)
 
@@ -42,6 +51,9 @@ def transactions(request):
         'transactions': transactions
     }
     return render(request, 'app/transactions.html', context)
+
+class TransactionDetailView(DetailView):
+    model = Transaction
 
 class TransactionCreateView(CreateView):
     model = Transaction
@@ -54,6 +66,11 @@ class TransactionCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('transactions')
+
+class TransactionUpdateView(UpdateView):
+    model = Transaction
+    form_class = TransactionForm
+    template_name_suffix = '_update'
 
 class TransactionDeleteView(DeleteView):
     model = Transaction

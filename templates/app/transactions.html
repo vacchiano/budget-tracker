@@ -51,7 +51,7 @@
                                 {% endif %}
                                 <td>{{ transaction.category }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-outline-info" href="#">Edit</a>
+                                    <a class="btn btn-sm btn-outline-info" href="{% url 'transaction-update' transaction.id %}">Edit</a>
                                     <a class="btn btn-sm btn-outline-danger" href="{% url 'transaction-delete' transaction.id %}">Delete</a>
                                 </td>
                             </tr>

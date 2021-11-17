@@ -36,5 +36,5 @@ class Transaction(models.Model):
         else:
             return f'{self.description} | ${self.amount}'
 
-    # def get_absolute_url(self):
-    #     return reverse()
+    def get_absolute_url(self):
+        return reverse('transaction-detail', kwargs={'pk' : self.pk})
